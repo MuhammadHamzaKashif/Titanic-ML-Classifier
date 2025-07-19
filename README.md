@@ -62,7 +62,7 @@ A machine learning classification task based on the Titanic dataset using differ
    
 ---
 
-##Sample Output
+## Sample Output
 
               precision    recall  f1-score   support
            0       1.00      1.00      1.00       110
