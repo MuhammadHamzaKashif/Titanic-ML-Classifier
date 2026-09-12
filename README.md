@@ -1,73 +1,51 @@
-# Titanic-ML-Classifier
-A machine learning classification task based on the Titanic dataset using different models like KNN, SVM and Logistic Regression
+# Titanic ML Classifier
 
----
+Comparing classic scikit-learn classifiers on the Titanic survival dataset. The notebook covers cleaning, feature encoding, scaling, and cross-validated evaluation for KNN, SVM, and logistic regression.
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat-square&logo=scikitlearn&logoColor=white)
+![pandas](https://img.shields.io/badge/pandas-150458?style=flat-square&logo=pandas&logoColor=white)
+![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=flat-square&logo=jupyter&logoColor=white)
 
 ## Dataset
 
-- Source: `seaborn.load_dataset('titanic')`
-- Cleaned and preprocessed using:
-  - Label encoding & one-hot encoding for categorical features
-  - Median imputation for missing age values
-  - Added dummy variables for `deck` and `embark_town`
+Loaded from `seaborn.load_dataset('titanic')`, then cleaned:
 
----
+- Label and one-hot encoding for categorical features (`sex`, `who`, `embarked`, `class`, and others)
+- Median imputation for missing `age`
+- Dummy variables for `deck` and `embark_town`
 
-## Models Used
+## Models and cross-validated accuracy
 
-| Model                | Accuracy (Cross-Validation) |
-|---------------------|-----------------------------|
-| K-Nearest Neighbors |  ~97%                      |
-| SVM (RBF Kernel)     |  ~99%–100%                |
-| Logistic Regression |  ~100%                     |
+| Model                | Accuracy (CV) |
+| -------------------- | ------------- |
+| K-Nearest Neighbors  | ~97%          |
+| SVM (RBF kernel)     | ~99-100%      |
+| Logistic Regression  | ~100%         |
 
----
+## Pipeline
 
-## Preprocessing Steps
+- Encode categorical columns
+- Fill missing values in `age`, `embarked`, and `deck`
+- Scale features with `StandardScaler`
+- Stratified `train_test_split`
+- `cross_val_score` for validation
+- `classification_report` for precision, recall, and F1
 
-- Encoded categorical columns (`sex`, `who`, `embarked`, `class`, etc.)
-- Filled missing values in `age`, `embarked`, and `deck`
-- Used `StandardScaler` for feature scaling
-- Splitting data using `train_test_split` with `stratify` for balanced classes
+## Stack
 
----
+- Python, Jupyter, scikit-learn
+- pandas, seaborn, NumPy
 
-## ML Techniques
+## Run it
 
-- Supervised classification
-- Cross-validation with `cross_val_score`
-- Evaluation using `classification_report` (Precision, Recall, F1)
+```bash
+git clone https://github.com/MuhammadHamzaKashif/Titanic-ML-Classifier.git
+cd Titanic-ML-Classifier
+pip install pandas seaborn scikit-learn jupyter
+jupyter notebook titanic_ml.ipynb
+```
 
----
+## Notes
 
-## Tech Stack
-
-- Python 
-- Jupyter Notebook 
-- scikit-learn 
-- Pandas, Seaborn, NumPy
-
----
-
-## How to Run
-
-1. Clone the repo  
-   ```bash
-   git clone https://github.com/yourusername/Titanic-ML-Classifier.git
-   ```
-2. Run the notebook using Jupyter
-   ```bash
-    jupyter notebook
-   ```
-   
----
-
-## Sample Output
-
-              precision    recall  f1-score   support
-           0       1.00      1.00      1.00       110
-           1       1.00      1.00      1.00        69
-    accuracy                           1.00       179
-   macro avg       1.00      1.00      1.00       179
-weighted avg       1.00      1.00      1.00       179
-
+- Near-perfect scores on Titanic are a classic sign of leakage. The `alive` column is often left in after one-hot encoding and is a direct restatement of the target. Dropping `alive`, `survived`, and any columns derived from them gives a much more honest evaluation (low 80s is typical for this dataset). Worth checking before treating these numbers as a baseline.
